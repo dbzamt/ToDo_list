@@ -1,0 +1,39 @@
+<div class="modal fade" id="changeStatusModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Change Task Status</h4>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+           <form action="/projects" method="post">
+
+			  <div class="form-group row">
+	            <label class="col-sm-2 col-form-label">Select Status<span class="required"> * </span></label>
+	            <div class="col-sm-10">
+	              <select id="change_status" name="status" class="form-control">
+	              	
+	              		<option value='' disabled selected>Select Status</option>
+	              		<option value='New'>New</option>
+	              		<option value='InProgress'>InProgress</option>
+	              		<option value='Done'>Done</option>
+	              	<%end%>
+	               </select>
+	            </div>
+	          </div>
+
+
+			
+
+	            <div style="margin-right: 188px;    margin-top: 150px;">
+	              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: right;margin-right: 10px">Close</button>
+	              <button type="submit" class="btn btn-success" onclick="change_status_submit()"  style="float: right">Submit</button>
+	            </div>
+	       </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

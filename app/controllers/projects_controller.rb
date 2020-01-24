@@ -6,8 +6,34 @@ class ProjectsController < ApplicationController
   	@projects = Project.all
   	@developers = User.where(admin:false)
 
+    @admin_developers_view = Array.new
+    @developers.each do |developer| 
+      task = Hash.new
+      task['name'] = developer.name if developer.name.present?
+      task_names = developer.tasks.where(status:"New").pluck(:name).join(', ')
+      task["new"] = task_names
+      task_names = developer.tasks.where(status:"InProgress").pluck(:name).join(', ')
+      task["progress"] = task_names
+      task_names = developer.tasks.where(status:"Done").pluck(:name).join(', ')
+      task["done"] = task_names
+      @admin_developers_view << task
+    end 
+
+    @admin_project_view = Array.new
+    @projects.each do |project| 
+      task = Hash.new
+      task['name'] = project.name if project.name.present?
+      task_names = project.tasks.where(status:"New").pluck(:name).join(', ')
+      task["new"] = task_names
+      task_names = project.tasks.where(status:"InProgress").pluck(:name).join(', ')
+      task["progress"] = task_names
+      task_names = project.tasks.where(status:"Done").pluck(:name).join(', ')
+      task["done"] = task_names
+      @admin_project_view << task
+    end 
+  
+
     @projects = User.where(admin:false).first.projects
-    # debugger
 
   end
 
@@ -17,8 +43,8 @@ class ProjectsController < ApplicationController
   end
 
   def get_tasks
-    @tasks  = Task.all
-    render json:@tasks , status: :ok
+    tasks  = Task.all
+    render json: tasks , status: :ok
   end
 
   def create

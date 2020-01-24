@@ -1,9 +1,80 @@
-  <!-- Trigger the modal with a button -->
 <%= stylesheet_link_tag 'jquery-multiselect/css/bootstrap-multiselect.css' %>
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#createProjectModal">Create Project</button>
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ceateTaskModal">Create Task</button>
-<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#assignDeveloperToProject">Assign Developers to Project</button> -->
-  <table class="table">
+<button type="button" class="btn btn-info btn-lg" id="showDevProTable">Show Projects</button>
+
+<table class="table table-bordered" id="admin_project_view" style="display: none;">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Status</th>
+    <%@admin_project_view.each do |project|%>
+      <th scope="col"><%=project['name'] if project['name'].present?%></th>
+    <%end%>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>New</td>
+        <%@admin_project_view.each do |project|%>
+          <td><%=project['new'] if project['new'].present?%></td>
+        <%end%>
+      </tr>
+      <tr>
+        
+        <td>In Progress</td>
+        <%@admin_project_view.each do |project|%>
+          <td><%=project['progress'] if project['progress'].present?%></td>
+        <%end%>
+      </tr>
+      <tr>
+        <td>Done</td>
+        
+        <%@admin_project_view.each do |project|%>
+          <td><%=project['done'] if project['done'].present?%></td>
+        <%end%>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+<table class="table table-bordered" id="admin_developer_view" >
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Status</th>
+    <%@admin_developers_view.each do |developer,i|%>
+      <th scope="col"><%=developer['name'] if developer['name'].present?%></th>
+    <%end%>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>New</td>
+        <%@admin_developers_view.each do |developer,i|%>
+          <td><%=developer['new'] if developer['new'].present?%></td>
+        <%end%>
+      </tr>
+      <tr>
+        
+        <td>In Progress</td>
+        <%@admin_developers_view.each do |developer,i|%>
+          <td><%=developer['progress'] if developer['progress'].present?%></td>
+        <%end%>
+      </tr>
+      <tr>
+        <td>Done</td>
+        
+        <%@admin_developers_view.each do |developer,i|%>
+          <td><%=developer['done'] if developer['done'].present?%></td>
+        <%end%>
+      </tr>
+    
+  </tbody>
+</table>
+
+
+
+<table class="table">
   <thead class="thead-dark">
     <tr>
       <th scope="col">S.No</th>
@@ -18,7 +89,7 @@
         <th scope="row"><%= i+1 %></th>
         <td><%=project['name']%></td>
         <td><%=project['description']%></td>
-        <td> <button class="view_task" project_id="<%=project['id']%>">Assigned Task</button></td>
+        <td> <a class="view_task" project_id="<%=project['id']%>">Assigned Task</a></td>
       </tr>
     <%end%>
     
@@ -40,143 +111,15 @@
 
 
 
- <div class="modal fade" id="createProjectModal" role="dialog">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Create Project</h4>
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-           <form action="/projects" method="post">
-              <div class="form-group row">
-			    <label for="projectName" class="col-sm-2 col-form-label">Name</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="name" id="projectName" placeholder="Project name...">
-			    </div>
-			  </div>
-
-			  <div class="form-group row">
-			    <label for="projectDescription" class="col-sm-2 col-form-label">Project Description</label>
-			    <div class="col-sm-10">
-			   	 <textarea class="form-control" name="description" id="projectDescription" rows="3"></textarea>
-			   	</div>
-			  </div>
-
-			  <div class="form-group row">
-	            <label class="col-sm-2 col-form-label">Select Developers<span class="required"> * </span></label>
-	            <div class="col-sm-10">
-	              <select id="select_developers" name="developers[]" class="form-control" multiple="multiple">
-	              	<%@developers.each_with_index do|developer,i|%>
-	              		<option value='<%=developer["id"]%>'><%=developer['name']%></option>
-	              	<%end%>
-	               </select>
-	            </div>
-	        </div>
+ 
 
 
-			
-
-	            <div style="margin-right: 188px;    margin-top: 150px;">
-	              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: right;margin-right: 10px">Close</button>
-	              <button type="submit" class="btn btn-success"  style="float: right">Submit</button>
-	            </div>
-	       </form>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<%= render "create_project_modal" %>
+<%= render "create_task_modal" %>
+<%= render "show_task_modal" %>
 
 
- <div class="modal fade" id="ceateTaskModal" role="dialog">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Create Task</h4>
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-           <form action="/tasks" method="post">
-              <div class="form-group row">
-          <label for="projectName" class="col-sm-2 col-form-label">Name</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" name="name" id="projectName" placeholder="Project name...">
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="projectDescription" class="col-sm-2 col-form-label">Task Description</label>
-          <div class="col-sm-10">
-           <textarea class="form-control" name="description" id="projectDescription" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Select Project<span class="required"> * </span></label>
-              <div class="col-sm-10">
-                <select id="select_project" name="project_id" class="form-control">
-                  <option disabled="" selected>Select Project</option>
-                  <%@projects.each_with_index do|project,i|%>
-                    <option value='<%=project["id"]%>'><%=project['name']%></option>
-                  <%end%>
-                 </select>
-              </div>
-          </div>
-
-          <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Select Developer<span class="required"> * </span></label>
-              <div class="col-sm-10">
-                <select id="select_developer" name="user_id" class="form-control">                  
-                 </select>
-              </div>
-          </div>
-
-          <div style="margin-right: 188px;    margin-top: 150px;">
-            <button type="button" class="btn btn-default" data-dismiss="modal" style="float: right;margin-right: 10px">Close</button>
-            <button type="submit" class="btn btn-success"  style="float: right">Submit</button>
-          </div>
-         </form>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
- <div class="modal fade" id="showTaskModal" role="dialog">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Assigned Tasks</h4>
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-          <table class="table">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">S.No</th>
-                <th scope="col">Project Name</th>
-                <th scope="col">Project Description</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody id="tasks_body"> 
-              
-              
-            </tbody>
-            </table>
-            <!-- <button type="button" class="btn btn-default" data-dismiss="modal" style="float: right;margin-right: 10px">Close</button> -->
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+ 
 
 
   <%= javascript_include_tag "jQuery.js",'jquery-multiselect/js/bootstrap-multiselect.js','bootstrap.min.js',"project.js"%>

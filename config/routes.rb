@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   get 'projects/get_developers' ,to: 'projects#get_developers'
   get '/projects/:project_id/tasks' ,to: 'projects#get_tasks'
   post '/tasks' ,to: 'tasks#create'
+  put 'tasks/:task_id/update_status' ,to: 'tasks#update_status'
 
 end
