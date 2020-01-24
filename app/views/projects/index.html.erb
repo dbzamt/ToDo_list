@@ -1,7 +1,9 @@
 <%= stylesheet_link_tag 'jquery-multiselect/css/bootstrap-multiselect.css' %>
+<% if user_signed_in? && current_user.admin? %>
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#createProjectModal">Create Project</button>
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ceateTaskModal">Create Task</button>
 <button type="button" class="btn btn-info btn-lg" id="showDevProTable">Show Projects</button>
+<br><br>
 
 <table class="table table-bordered" id="admin_project_view" style="display: none;">
   <thead class="thead-dark">
@@ -27,8 +29,7 @@
         <%end%>
       </tr>
       <tr>
-        <td>Done</td>
-        
+        <td>Done</td>     
         <%@admin_project_view.each do |project|%>
           <td><%=project['done'] if project['done'].present?%></td>
         <%end%>
@@ -36,7 +37,6 @@
     
   </tbody>
 </table>
-
 
 <table class="table table-bordered" id="admin_developer_view" >
   <thead class="thead-dark">
@@ -72,8 +72,11 @@
   </tbody>
 </table>
 
+<%end%>
 
-
+<% if user_signed_in? && !current_user.admin? %>
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#changeStatusModal">Update Task Status</button>
+<br><br>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -95,11 +98,14 @@
     
   </tbody>
 </table>
+
+<%end%>
+
 <% if !user_signed_in? %>
 <% content_for :top_content do %>
   <div class="jumbotron">
     <div class="container">
-      <h1>Welcome!</h1>
+      <h1>Task Management System</h1>
       <p>Register to get started.</p>
       <p>
         <%= link_to 'Register', new_user_registration_path, class: 'btn btn-primary btn-lg' %>
@@ -110,16 +116,10 @@
 <%end%>
 
 
-
- 
-
-
 <%= render "create_project_modal" %>
 <%= render "create_task_modal" %>
 <%= render "show_task_modal" %>
-
-
- 
+<%= render "change_task_status_modal" %>
 
 
   <%= javascript_include_tag "jQuery.js",'jquery-multiselect/js/bootstrap-multiselect.js','bootstrap.min.js',"project.js"%>

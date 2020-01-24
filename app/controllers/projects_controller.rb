@@ -32,6 +32,7 @@ class ProjectsController < ApplicationController
       @admin_project_view << task
     end 
   
+    @tasks = Task.all
 
     @projects = User.where(admin:false).first.projects
 
@@ -48,14 +49,13 @@ class ProjectsController < ApplicationController
   end
 
   def create
-  	# debugger
   	project = Project.new(create_project_params)
   	if project.save
   		params[:developers].each do |developer_id|
   			ProjectDeveloper.create(project_id:project.id, user_id:developer_id)
   		end
   	end
-  	redirect_to  :action => 'index'
+  	redirect_to  root_path,flash: {success: "Project Successfully Created"}
   end
 
   private

@@ -5,8 +5,10 @@ class Ability
 
     user ||= User.new
     if user.admin?
-      can :isAdmin
-    end
+      can :manage
+    else
+      can :developer
+  	end
 
   end
 end

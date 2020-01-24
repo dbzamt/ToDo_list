@@ -60,7 +60,7 @@ $(".view_task").on('click',function(e){
 	            var email = $("#email").val();
 
         
-	            var markup = "<tr><td>"+(i+1)+"</td><td>" + d.name + "</td><td>" + d.description + "</td><td>" + d.status + "</td>"+'<td> <a class="change_status"  onclick="'+'change_status('+d.id+')">Change Staus</a></td></tr>';
+	            var markup = "<tr><td>"+(i+1)+"</td><td>" + d.name + "</td><td>" + d.description + "</td><td>" + d.status + "</td></tr>";
            		$('#tasks_body').append(markup);
            	});
         } 

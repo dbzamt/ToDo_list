@@ -5,7 +5,7 @@ class TasksController < ApplicationController
 
 	def create
     Task.create(createTaskParams)
-    redirect_to  :action => 'index', :controller=>"projects"
+    redirect_to root_path, flash: {success: "Task Successfully Created"}
   end
 
   def index
@@ -15,11 +15,10 @@ class TasksController < ApplicationController
   def update_status
     @task.status = params[:status]
     if @task.save
-      render json:{message:"Successfully Updated"} , status: :ok
+      redirect_to root_path, flash: {success: "Successfully Updated"}
     else
-      render json:{message:"Error occured while Updating"} , status: :unprocessable_entity
+      redirect_to root_path, flash: {danger: "Error occured while Updating"}
     end
-    
   end
 
 

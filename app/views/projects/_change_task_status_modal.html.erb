@@ -7,7 +7,19 @@
         </div>
         <div class="modal-body">
           <div class="container-fluid">
-           <form action="/projects" method="post">
+           <form action="/tasks/update_status" method="post">
+           	 <div class="form-group row">
+	            <label class="col-sm-2 col-form-label">Select Task<span class="required"> * </span></label>
+	            <div class="col-sm-10">
+	              <select id="select_task" name="task_id" class="form-control">
+	              		<option value='' disabled selected>Select Task</option>
+	              		<%@tasks.each_with_index do|task|%>
+	              			<option value='<%=task["id"]%>'><%=task['name']%></option>
+	              		<%end%>
+	              	
+	               </select>
+	            </div>
+	          </div>
 
 			  <div class="form-group row">
 	            <label class="col-sm-2 col-form-label">Select Status<span class="required"> * </span></label>
@@ -18,17 +30,12 @@
 	              		<option value='New'>New</option>
 	              		<option value='InProgress'>InProgress</option>
 	              		<option value='Done'>Done</option>
-	              	<%end%>
 	               </select>
 	            </div>
 	          </div>
-
-
-			
-
 	            <div style="margin-right: 188px;    margin-top: 150px;">
 	              <button type="button" class="btn btn-default" data-dismiss="modal" style="float: right;margin-right: 10px">Close</button>
-	              <button type="submit" class="btn btn-success" onclick="change_status_submit()"  style="float: right">Submit</button>
+	              <button type="submit" class="btn btn-success" style="float: right">Submit</button>
 	            </div>
 	       </form>
             
