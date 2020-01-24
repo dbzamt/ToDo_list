@@ -6,6 +6,7 @@ Rails.application.config.assets.precompile += %w( jquery-multiselect/css/bootstr
 Rails.application.config.assets.precompile += %w( jQuery.js )
 Rails.application.config.assets.precompile += %w( jquery-multiselect/js/bootstrap-multiselect.js )
 Rails.application.config.assets.precompile += %w( project.js )
+Rails.application.config.assets.precompile += %w( bootstrap.min.js )
 
 # Add additional assets to the asset load path
 # Rails.application.config.assets.paths << Emoji.images_path
