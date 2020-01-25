@@ -5,7 +5,8 @@ class TasksController < ApplicationController
 
 	def create
     Task.create(createTaskParams)
-    redirect_to root_path, flash: {success: "Task Successfully Created"}
+    message =  I18n.t 'task.created.message'
+    redirect_to root_path, flash: {success: message}
   end
 
   def index
@@ -15,8 +16,11 @@ class TasksController < ApplicationController
   def update_status
     @task.status = params[:status]
     if @task.save
-      redirect_to root_path, flash: {success: "Successfully Updated"}
+      message =  I18n.t 'task.updated.success'
+
+      redirect_to root_path, flash: {success: "Task Updated Successfully"}
     else
+      message =  I18n.t 'task.updated.error'
       redirect_to root_path, flash: {danger: "Error occured while Updating"}
     end
   end

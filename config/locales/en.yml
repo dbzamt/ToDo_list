@@ -20,4 +20,15 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  project: 
+    created: 
+      message: "Project Created Successfully"
+
+  task:
+    created:
+      message: "Task Created Successfully"
+
+    updated:
+      success: "Task updated Successfully"
+      error: "Error Occured while Udating task"
+

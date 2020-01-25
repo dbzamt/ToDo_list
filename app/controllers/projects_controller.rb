@@ -55,7 +55,8 @@ class ProjectsController < ApplicationController
   			ProjectDeveloper.create(project_id:project.id, user_id:developer_id)
   		end
   	end
-  	redirect_to  root_path,flash: {success: "Project Successfully Created"}
+    message =  I18n.t 'project.created.message'
+  	redirect_to  root_path,flash: {success: message}
   end
 
   private

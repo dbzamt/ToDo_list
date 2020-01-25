@@ -5,7 +5,9 @@ class Ability
 
     user ||= User.new
     if user.admin?
-      can :manage
+      can :manage, Project
+      can :manage, Task
+      can :manage, User
     else
       can :developer
   	end

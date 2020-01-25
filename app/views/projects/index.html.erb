@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag 'jquery-multiselect/css/bootstrap-multiselect.css' %>
-<% if user_signed_in? && current_user.admin? %>
+<% if can? :manage, Project%>
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#createProjectModal">Create Project</button>
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ceateTaskModal">Create Task</button>
 <button type="button" class="btn btn-info btn-lg" id="showDevProTable">Show Projects</button>
@@ -22,7 +22,6 @@
         <%end%>
       </tr>
       <tr>
-        
         <td>In Progress</td>
         <%@admin_project_view.each do |project|%>
           <td><%=project['progress'] if project['progress'].present?%></td>
@@ -72,9 +71,11 @@
   </tbody>
 </table>
 
-<%end%>
+<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
 
-<% if user_signed_in? && !current_user.admin? %>
+<%else%>
+
+<% if user_signed_in? %>
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#changeStatusModal">Update Task Status</button>
 <br><br>
 <table class="table">
@@ -100,6 +101,7 @@
 </table>
 
 <%end%>
+<%end%>
 
 <% if !user_signed_in? %>
 <% content_for :top_content do %>
@@ -122,4 +124,6 @@
 <%= render "change_task_status_modal" %>
 
 
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <%= javascript_include_tag "jQuery.js",'jquery-multiselect/js/bootstrap-multiselect.js','bootstrap.min.js',"project.js"%>

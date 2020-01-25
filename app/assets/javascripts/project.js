@@ -1,35 +1,13 @@
 $(document).ready(function() {
-	// $("#admin_developer_view").show();
+
+  google.charts.load("current", {packages:["corechart"]});
+  google.charts.setOnLoadCallback(drawChart);
 
 	$('#select_developers').multiselect({
 	    columns:1,
 	    placeholder: 'Select Languages'
 	});
 
-	$('#select_project').on('change',function(){
-		fillDevelopers();
-	});
-
-
-	function fillDevelopers()
-	  {
-
-	    $('#select_developer').empty();
-	    var project_id = $('#select_project').val();
-	    $.ajax({
-	            type: "get",
-	            url: "/projects/get_developers",
-	            data: { 'project_id': project_id  },
-	            success: function(data){
-
-	                $('#select_developer').append('<option disabled="" selected>Select Developer</option>');
-	               	$.each(data, function(i, d) {
-
-	               		$('#select_developer').append('<option value="' + d.id + '">' + d.name + '</option>');
-	                });
-	            }
-	        });
-	  }
 });
 
 $('#showDevProTable').on('click',function(){
@@ -67,27 +45,41 @@ $(".view_task").on('click',function(e){
     });
 });
 
-function change_status(task_id) {
-	alert(task_id)
-	// $.ajax({
- //        type: "get",
- //        url: "tasks/"+task_id+"/update_status",
- //        success: function(data){
-	// 		$('#showTaskModal').modal('show');
-	// 		$('#tasks_body').empty();
-	// 		$.each(data, function(i, d) {
- //           		var name = d.name
-	//             var email = $("#email").val();
+function fillDevelopers(){
+    var project_id = $('#select_project').val();
+    $.ajax({
+            type: "get",
+            url: "/projects/get_developers",
+            data: { 'project_id': project_id  },
+            success: function(data){
+    			$('#select_developer').empty();
+                $('#select_developer').append('<option disabled="" selected>Select Developer</option>');
+               	$.each(data, function(i, d) {
 
-        
-	//             var markup = "<tr><td>"+(i+1)+"</td><td>" + d.name + "</td><td>" + d.description + "</td><td>" + d.status + "</td>"+'<td> <a class="change_status"  onclick="'+'change_status('+d.id+')">Change Staus</a></td></tr>';
- //           		$('#tasks_body').append(markup);
- //           	});
- //        } 
- //    });
-}
+               		$('#select_developer').append('<option value="' + d.id + '">' + d.name + '</option>');
+                });
+            }
+        });
+  }
 
-function change_status_submit(argument) {
-	// body...
-	alert("asdf")
-}
+  $('#select_project').on('change',function(){
+		fillDevelopers();
+	});
+
+
+function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Task', 'Hours per Day'],
+      ['Done',     5],
+      ['New',      10],
+      ['Progress',  2]
+    ]);
+
+    var options = {
+      title: 'Project Task status',
+      is3D: true,
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+    chart.draw(data, options);
+	}

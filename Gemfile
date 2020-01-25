@@ -25,6 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'active_model_serializers'
 
+gem 'rails-i18n', '~> 4.0'
 
 # gem 'therubyracer'
 gem "twitter-bootstrap-rails"
